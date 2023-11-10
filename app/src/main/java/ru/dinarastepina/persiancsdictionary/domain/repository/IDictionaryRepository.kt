@@ -1,4 +1,4 @@
-package ru.dinarastepina.persiancsdictionary.di
+package ru.dinarastepina.persiancsdictionary.domain.repository
 
 import ru.dinarastepina.persiancsdictionary.domain.model.Word
 
