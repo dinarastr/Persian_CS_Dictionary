@@ -48,6 +48,8 @@ dependencies {
     testImplementation(libs.mockito.inline)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.core.testing)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.runner)
@@ -60,5 +62,4 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-
 }
