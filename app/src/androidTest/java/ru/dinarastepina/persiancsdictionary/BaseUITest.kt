@@ -12,6 +12,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
+import ru.dinarastepina.persiancsdictionary.di.idlingResource
 import ru.dinarastepina.persiancsdictionary.presentation.MainActivity
 
 @RunWith(AndroidJUnit4::class)

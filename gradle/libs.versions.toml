@@ -7,9 +7,14 @@ core-ktx = "1.12.0"
 espresso-core = "3.5.1"
 junit = "4.13.2"
 kotlin = "1.9.0"
+kotlinxCoroutinesTest = "1.7.3"
 material = "1.10.0"
 compileSdk = "34"
 minSdk = "24"
+mockitoInline = "5.2.0"
+mockitoKotlin = "5.1.0"
+okhttp3IdlingResource = "1.0.0"
+retrofit = "2.9.0"
 runner = "1.5.2"
 targetSdk = "34"
 versionCode = "1"
@@ -24,15 +29,22 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
-barista = {module = "com.adevinta.android:barista", version.ref = "barista"}
+barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
 
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"}
 hilt-compiler = {module = "com.google.dagger:hilt-compiler", version.ref = "hilt"}
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+okhttp3-idling-resource = { module = "com.jakewharton.espresso:okhttp3-idling-resource", version.ref = "okhttp3IdlingResource" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

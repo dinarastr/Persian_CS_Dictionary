@@ -1,9 +1,13 @@
 package ru.dinarastepina.persiancsdictionary.di
 
+import com.jakewharton.espresso.OkHttp3IdlingResource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.dinarastepina.persiancsdictionary.data.remote.api.DictionaryApi
 import javax.inject.Singleton
 
