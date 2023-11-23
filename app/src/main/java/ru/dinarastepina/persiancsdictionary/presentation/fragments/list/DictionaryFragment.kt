@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
@@ -17,9 +18,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DictionaryFragment : Fragment() {
-    lateinit var viewmodel: DictionaryFragmentVM
-    @Inject
-    lateinit var viewmodelFactory: DictionaryViewModelFactory
+    private val viewmodel: DictionaryFragmentVM by viewModels()
     private var _vb: FragmentDictionaryBinding? = null
     private val vb: FragmentDictionaryBinding
         get() = _vb!!
@@ -29,8 +28,6 @@ class DictionaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _vb = FragmentDictionaryBinding.inflate(layoutInflater, container, false)
-
-        setUpViewModel()
 
         viewmodel.loader.observe(viewLifecycleOwner) { visible ->
             if (visible) {
@@ -56,10 +53,6 @@ class DictionaryFragment : Fragment() {
                 findNavController().navigate(action)
             }
         }
-    }
-
-    private fun setUpViewModel() {
-        viewmodel = ViewModelProvider(this, viewmodelFactory)[DictionaryFragmentVM::class.java]
     }
 
     override fun onDestroyView() {
