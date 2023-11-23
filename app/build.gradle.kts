@@ -52,8 +52,6 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
-
-
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.kotlinx.coroutines.test)

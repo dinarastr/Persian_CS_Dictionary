@@ -9,14 +9,13 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.dinarastepina.persiancsdictionary.data.mapper.DataMapper
 import ru.dinarastepina.persiancsdictionary.data.remote.api.DictionaryApi
 import ru.dinarastepina.persiancsdictionary.data.repository.DictionaryRepository
 import ru.dinarastepina.persiancsdictionary.domain.repository.IDictionaryRepository
-import ru.dinarastepina.persiancsdictionary.presentation.mapper.UIMapper
 import javax.inject.Singleton
 
 val client = OkHttpClient()
+//todo: remove idling resource since it's no longer supported
 val idlingResource = OkHttp3IdlingResource.create("okhttp", client)
 @Module
 @InstallIn(SingletonComponent::class)
@@ -43,5 +42,4 @@ abstract class DictionaryModule {
 
         @Binds
         abstract fun bindDictionaryRepository(repository: DictionaryRepository): IDictionaryRepository
-
 }

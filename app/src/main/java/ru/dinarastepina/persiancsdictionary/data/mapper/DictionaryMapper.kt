@@ -8,7 +8,6 @@ class DataMapper @Inject constructor() {
 
      fun toDomain(wordsRaw: List<WordApiModel>): List<Word> {
         return wordsRaw.map {
-
             Word(it.id, it.english, it.meanings)
         }
     }
