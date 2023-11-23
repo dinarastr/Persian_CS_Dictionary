@@ -1,5 +1,6 @@
 package ru.dinarastepina.persiancsdictionary.data.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -19,6 +20,7 @@ class DictionaryRepository @Inject constructor(
             emit(Result.success(
                 mapper.toDomain(api.fetchWords().words)))
         }.catch {
+            Log.i("error", "error")
             emit(Result.failure(RuntimeException("No!")))
         }
     }

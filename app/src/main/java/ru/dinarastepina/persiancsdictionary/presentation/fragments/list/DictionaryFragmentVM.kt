@@ -25,8 +25,7 @@ class DictionaryFragmentVM @Inject constructor(
     val words: LiveData<Result<List<UiWord>>> = liveData {
         loader.postValue(true)
         emitSource(repository.getAllArticles().map { result ->
-            result.map { mapper.toUI(it)
-            }
+            result.map { mapper.toUI(it) }
         }
             .onEach {
                 loader.postValue(false)

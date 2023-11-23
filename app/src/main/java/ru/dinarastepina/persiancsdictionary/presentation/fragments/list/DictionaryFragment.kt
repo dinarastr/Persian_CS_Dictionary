@@ -1,6 +1,7 @@
 package ru.dinarastepina.persiancsdictionary.presentation.fragments.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,11 @@ class DictionaryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _vb = FragmentDictionaryBinding.inflate(layoutInflater, container, false)
+        return vb.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewmodel.loader.observe(viewLifecycleOwner) { visible ->
             if (visible) {
                 vb.progressBar.visibility = View.VISIBLE
@@ -39,15 +44,14 @@ class DictionaryFragment : Fragment() {
 
         viewmodel.words.observe(viewLifecycleOwner) { result ->
             result.getOrNull()?.let { words ->
+                Log.i("dinara", words.toString())
                 setUpAdapter(words)
-            } ?: println()
+            } ?: Log.i("dinara", "empty")
         }
-        return vb.root
     }
 
     private fun setUpAdapter(words: List<UiWord>) {
         with(vb.dictionaryRv) {
-            layoutManager = LinearLayoutManager(context)
             adapter = MyDictionaryRecyclerViewAdapter(words) {id ->
                 val action = DictionaryFragmentDirections.actionDictionaryFragmentToDetailsFragment(id)
                 findNavController().navigate(action)
