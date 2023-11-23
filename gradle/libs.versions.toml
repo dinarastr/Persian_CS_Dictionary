@@ -9,11 +9,13 @@ espresso-core = "3.5.1"
 junit = "4.13.2"
 kotlin = "1.9.0"
 kotlinxCoroutinesTest = "1.7.3"
+lifecycleViewmodelKtx = "2.7.0-rc01"
 material = "1.10.0"
 compileSdk = "34"
 minSdk = "24"
 mockitoInline = "5.2.0"
 mockitoKotlin = "5.1.0"
+navigationFragmentKtx = "2.7.5"
 okhttp3IdlingResource = "1.0.0"
 retrofit = "2.9.0"
 runner = "1.5.2"
@@ -23,6 +25,7 @@ versionName = "1.0"
 barista = "4.2.0"
 hilt = "2.48.1"
 kspVersion = "1.9.20-1.0.14"
+navigationComponent = "2.7.5"
 
 
 [libraries]
@@ -31,6 +34,9 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso-core" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationComponent" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationComponent" }
 barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
 
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
@@ -53,3 +59,5 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion"}
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+safeArgs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigationComponent" }
+

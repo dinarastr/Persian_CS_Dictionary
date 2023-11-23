@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dictionaryFragment">
+
+    <fragment
+        android:id="@+id/dictionaryFragment"
+        android:name="ru.dinarastepina.persiancsdictionary.presentation.fragments.list.DictionaryFragment"
+        android:label="DictionaryFragment">
+        <action
+            android:id="@+id/action_dictionaryFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="ru.dinarastepina.persiancsdictionary.presentation.fragments.details.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details">
+
+        <argument
+            android:name="wordId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+</navigation>

@@ -59,6 +59,6 @@ class DictionaryFeatureTest: BaseUITest() {
             )
         )
             .perform(ViewActions.click())
-        assertDisplayed(R.id.word_details_root)
+        assertDisplayed(R.id.details_root)
     }
 }
