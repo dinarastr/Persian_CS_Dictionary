@@ -15,8 +15,10 @@ import ru.dinarastepina.persiancsdictionary.domain.repository.IDictionaryReposit
 import javax.inject.Singleton
 
 val client = OkHttpClient()
+
 //todo: remove idling resource since it's no longer supported
 val idlingResource = OkHttp3IdlingResource.create("okhttp", client)
+
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DictionaryModule {
@@ -39,7 +41,6 @@ abstract class DictionaryModule {
             .build()
     }
 
-
-        @Binds
-        abstract fun bindDictionaryRepository(repository: DictionaryRepository): IDictionaryRepository
+    @Binds
+    abstract fun bindDictionaryRepository(repository: DictionaryRepository): IDictionaryRepository
 }

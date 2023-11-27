@@ -18,18 +18,30 @@ class DictionaryRepository @Inject constructor(
     override fun getAllArticles(page: String, pageSize: Int): Flow<Result<List<Word>>> {
         return flow {
             emit(Result.success(
-                mapper.toDomain(api.fetchWords().words)))
+                api.fetchWords(page, pageSize).words.map { mapper.toDomain(it) }))
         }.catch {
-            Log.i("error", "error")
+            Log.e("error", "error")
             emit(Result.failure(RuntimeException("No!")))
         }
     }
 
-    override fun searchArticles(query: String, page: Int, pageSize: Int): Flow<Result<List<Word>>> {
-        TODO("Not yet implemented")
+    override fun searchArticles(query: String, page: String, pageSize: Int): Flow<Result<List<Word>>> {
+        return flow {
+            emit(Result.success(
+                api.searchWords(query, page, pageSize).words.map { mapper.toDomain(it) }))
+        }.catch {
+            Log.e("error", "error")
+            emit(Result.failure(RuntimeException("No!")))
+        }
     }
 
-    override fun getArticleDetails(id: Int): Flow<Result<Word>> {
-        TODO("Not yet implemented")
+    override fun getArticleDetails(id: String): Flow<Result<Word>> {
+        return flow {
+            emit(Result.success(
+                mapper.toDomain(api.fetchWordDetails(id))))
+        }.catch {
+            Log.e("error", "error")
+            emit(Result.failure(RuntimeException("No!")))
+        }
     }
 }
