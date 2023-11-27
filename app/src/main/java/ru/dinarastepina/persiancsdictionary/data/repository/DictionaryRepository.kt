@@ -1,9 +1,17 @@
 package ru.dinarastepina.persiancsdictionary.data.repository
 
 import android.util.Log
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDao
+import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDatabase
+import ru.dinarastepina.persiancsdictionary.data.local.model.WordDB
+import ru.dinarastepina.persiancsdictionary.data.local.paging.DictionaryRemoteMediator
 import ru.dinarastepina.persiancsdictionary.data.mapper.DataMapper
 import ru.dinarastepina.persiancsdictionary.data.remote.api.DictionaryApi
 import ru.dinarastepina.persiancsdictionary.domain.repository.IDictionaryRepository
@@ -12,13 +20,24 @@ import java.lang.RuntimeException
 import javax.inject.Inject
 
 class DictionaryRepository @Inject constructor(
-    private val api: DictionaryApi,
-    private val mapper: DataMapper
+    private val mapper: DataMapper,
+    private val database: DictionaryDatabase,
+    private val api: DictionaryApi
 ): IDictionaryRepository {
-    override fun getAllArticles(page: String, pageSize: Int): Flow<Result<List<Word>>> {
-        return flow {
-            emit(Result.success(
-                api.fetchWords(page, pageSize).words.map { mapper.toDomain(it) }))
+
+
+    @OptIn(ExperimentalPagingApi::class)
+    val pager = Pager(
+        config = PagingConfig(pageSize = 50) ,
+                remoteMediator = DictionaryRemoteMediator(
+                   database, api, mapper
+                ))
+    {
+        database.dictionaryDao().fetchAllWords()
+    }
+    override fun getAllArticles(page: String, pageSize: Int): Flow<PagingData<Word>> {
+        return pager.flow
+                //api.fetchWords(page, pageSize).words.map { mapper.toDomain(it) }))
         }.catch {
             Log.e("error", "error")
             emit(Result.failure(RuntimeException("No!")))

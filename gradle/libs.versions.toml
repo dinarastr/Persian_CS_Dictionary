@@ -7,7 +7,7 @@ core-ktx = "1.12.0"
 coreTesting = "2.2.0"
 espresso-core = "3.5.1"
 junit = "4.13.2"
-kotlin = "1.9.0"
+kotlin = "1.9.20"
 kotlinxCoroutinesTest = "1.7.3"
 lifecycleViewmodelKtx = "2.7.0-rc01"
 material = "1.10.0"
@@ -39,6 +39,7 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationComponent" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationComponent" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
