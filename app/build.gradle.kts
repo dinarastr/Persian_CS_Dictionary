@@ -46,7 +46,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.okhttp3.idling.resource)
 
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -62,7 +61,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.barista)
-    androidTestImplementation(libs.okhttp3.idling.resource)
 
 
     implementation(libs.hilt.android)

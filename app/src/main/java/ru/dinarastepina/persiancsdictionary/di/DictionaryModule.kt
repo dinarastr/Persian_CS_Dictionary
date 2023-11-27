@@ -1,6 +1,5 @@
 package ru.dinarastepina.persiancsdictionary.di
 
-import com.jakewharton.espresso.OkHttp3IdlingResource
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,10 +14,6 @@ import ru.dinarastepina.persiancsdictionary.domain.repository.IDictionaryReposit
 import javax.inject.Singleton
 
 val client = OkHttpClient()
-
-//todo: remove idling resource since it's no longer supported
-val idlingResource = OkHttp3IdlingResource.create("okhttp", client)
-
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DictionaryModule {

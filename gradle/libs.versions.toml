@@ -54,7 +54,6 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = {module = "com.google.dagger:hilt-compiler", version.ref = "hilt"}
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
-okhttp3-idling-resource = { module = "com.jakewharton.espresso:okhttp3-idling-resource", version.ref = "okhttp3IdlingResource" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 
