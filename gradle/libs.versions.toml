@@ -18,6 +18,7 @@ mockitoKotlin = "5.1.0"
 navigationFragmentKtx = "2.7.5"
 okhttp3IdlingResource = "1.0.0"
 retrofit = "2.9.0"
+roomRuntime = "2.6.0"
 runner = "1.5.2"
 targetSdk = "34"
 versionCode = "1"
@@ -37,6 +38,9 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationComponent" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationComponent" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
 
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }

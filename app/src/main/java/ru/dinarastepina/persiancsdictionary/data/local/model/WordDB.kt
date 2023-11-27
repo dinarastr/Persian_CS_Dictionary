@@ -1,6 +1,12 @@
 package ru.dinarastepina.persiancsdictionary.data.local.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "words")
 data class WordDB(
-    val id: Int = 0,
-    val english: String
+    @PrimaryKey
+    val id: String = "",
+    val english: String,
+    val meanings: List<String>
 )
