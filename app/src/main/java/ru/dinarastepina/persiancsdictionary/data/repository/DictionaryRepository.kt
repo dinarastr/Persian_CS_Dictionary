@@ -5,9 +5,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDao
 import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDatabase
 import ru.dinarastepina.persiancsdictionary.data.local.model.WordDB
@@ -25,22 +27,21 @@ class DictionaryRepository @Inject constructor(
     private val api: DictionaryApi
 ): IDictionaryRepository {
 
-
-    @OptIn(ExperimentalPagingApi::class)
-    val pager = Pager(
-        config = PagingConfig(pageSize = 50) ,
-                remoteMediator = DictionaryRemoteMediator(
-                   database, api, mapper
-                ))
-    {
-        database.dictionaryDao().fetchAllWords()
-    }
     override fun getAllArticles(page: String, pageSize: Int): Flow<PagingData<Word>> {
-        return pager.flow
-                //api.fetchWords(page, pageSize).words.map { mapper.toDomain(it) }))
+        @OptIn(ExperimentalPagingApi::class)
+        val pager = Pager(
+            config = PagingConfig(pageSize = 50) ,
+            remoteMediator = DictionaryRemoteMediator(
+                database, api, mapper
+            ))
+        {
+            database.dictionaryDao().fetchAllWords()
+        }
+
+        return pager.flow.map { data ->
+            data.map { mapper.toDomain(it) }
         }.catch {
             Log.e("error", "error")
-            emit(Result.failure(RuntimeException("No!")))
         }
     }
 

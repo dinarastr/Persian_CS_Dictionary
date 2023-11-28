@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ru.dinarastepina.persiancsdictionary.R
@@ -43,19 +44,25 @@ class DictionaryFragment : Fragment() {
         }
 
         viewmodel.words.observe(viewLifecycleOwner) { result ->
-            result.getOrNull()?.let { words ->
-                Log.i("dinara", words.toString())
-                setUpAdapter(words)
-            } ?: Log.i("dinara", "empty")
+                setUpAdapter(result)
+            }
         }
-    }
 
-    private fun setUpAdapter(words: List<UiWord>) {
-        with(vb.dictionaryRv) {
-            adapter = MyDictionaryRecyclerViewAdapter(words) {id ->
+
+    private fun setUpAdapter(words: PagingData<UiWord>) {
+        val rv = MyDictionaryRecyclerViewAdapter(
+            listener = {id ->
                 val action = DictionaryFragmentDirections.actionDictionaryFragmentToDetailsFragment(id)
                 findNavController().navigate(action)
             }
+        ).apply {
+            submitData(lifecycle = viewLifecycleOwner.lifecycle,
+                words
+            )
+        }
+
+        with(vb.dictionaryRv) {
+            adapter = rv
         }
     }
 

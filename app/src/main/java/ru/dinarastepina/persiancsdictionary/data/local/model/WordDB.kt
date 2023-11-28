@@ -14,6 +14,14 @@ data class WordDB(
     val meanings: List<String>
 )
 
+@Entity(tableName = "remote_keys")
+data class RemoteKey(
+    @PrimaryKey
+    val id: String = "",
+    val prevPage: String?,
+    val nextPage: String?
+)
+
 
 object TranslationsConverter {
     @TypeConverter

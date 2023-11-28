@@ -54,6 +54,7 @@ dependencies {
 
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.paging.runtime.ktx)
     ksp(libs.hilt.compiler)
 
     implementation(libs.retrofit)

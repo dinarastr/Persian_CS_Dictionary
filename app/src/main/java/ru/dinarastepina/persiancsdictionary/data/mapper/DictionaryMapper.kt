@@ -7,11 +7,15 @@ import javax.inject.Inject
 
 class DataMapper @Inject constructor() {
 
-    fun toDomain(wordRaw: WordApiModel): Word {
-        return Word(wordRaw.id, wordRaw.english, wordRaw.meanings)
+    fun toDomain(word: WordApiModel): Word {
+        return Word(word.id, word.english, word.meanings)
     }
 
-    fun toDB(wordRaw: WordApiModel): WordDB {
-        return WordDB(wordRaw.id, wordRaw.english, wordRaw.meanings)
+    fun toDB(word: WordApiModel): WordDB {
+        return WordDB(word.id, word.english, word.meanings)
+    }
+
+    fun toDomain(word: WordDB): Word {
+        return Word(word.id, word.english, word.meanings)
     }
 }

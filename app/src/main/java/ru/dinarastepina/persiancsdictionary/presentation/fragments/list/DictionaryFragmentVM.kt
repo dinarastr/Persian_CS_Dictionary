@@ -5,7 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import ru.dinarastepina.persiancsdictionary.domain.repository.IDictionaryRepository
@@ -21,14 +24,12 @@ class DictionaryFragmentVM @Inject constructor(
 
     val loader = MutableLiveData<Boolean>()
 
-    val words: LiveData<Result<List<UiWord>>> = liveData {
-        loader.postValue(true)
-        emitSource(repository.getAllArticles("", 20).map { result ->
-            result.map { mapper.toUI(it) }
+    val words = repository.getAllArticles(
+        "",
+        20
+    ).flowOn(Dispatchers.IO)
+        .map {data ->
+           data.map { mapper.toUI(it) }
         }
-            .onEach {
-                loader.postValue(false)
-            }
-            .asLiveData())
-    }
+        .asLiveData()
 }
