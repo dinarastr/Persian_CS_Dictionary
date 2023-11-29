@@ -1,5 +1,6 @@
 package ru.dinarastepina.persiancsdictionary.data.local.paging
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -23,83 +24,50 @@ class DictionaryRemoteMediator @Inject constructor(
     private val mapper: DataMapper
 ) : RemoteMediator<Int, WordDB>() {
 
-    private val userDao = database.dictionaryDao()
-    private val remoteKeyDao = database.remoteKeyDao()
+    private val dictionaryDao = database.dictionaryDao()
 
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, WordDB>
     ): MediatorResult {
         return try {
-            val latestFetchedId = when (loadType) {
+            val currentPage: String = when (loadType) {
                 LoadType.REFRESH -> {
-                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKeys?.id
+                    ""
                 }
+
                 LoadType.PREPEND -> {
-                    val remoteKeys = getRemoteKeyForFirstItem(state)
-                    val prevPage = remoteKeys?.prevPage
-                        ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
-                        )
-                    prevPage
+                    return MediatorResult.Success(
+                        endOfPaginationReached = true
+                    )
                 }
 
                 LoadType.APPEND -> {
-                    val remoteKeys = getRemoteKeyForLastItem(state)
-                    val nextPage = remoteKeys?.nextPage
+                    val last = state.lastItemOrNull()
                         ?: return MediatorResult.Success(
-                            endOfPaginationReached = remoteKeys != null
+                            endOfPaginationReached = true
                         )
-                    nextPage
+                    last.id
                 }
             }
 
             val response = api.fetchWords(
-                lastId = latestFetchedId.orEmpty(),
-                limit = 20)
-
-            val endOfPaginationReached = response.words.isEmpty()
-
-            database.withTransaction {
-                userDao.insertAll(response.words.map { mapper.toDB(it) })
-            }
-
-            MediatorResult.Success(
-                endOfPaginationReached = response.nextPage == null
+                lastId = currentPage,
+                limit = 20
             )
+
+            val endOfPaginationReached = response.words.size < 20
+            database.withTransaction {
+                if (loadType == LoadType.REFRESH) {
+                    dictionaryDao.deleteAllCache()
+                }
+                dictionaryDao.insertAll(words = response.words.map { mapper.toDB(it) })
+            }
+            MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {
             MediatorResult.Error(e)
         }
-    }
-
-    private suspend fun getRemoteKeyClosestToCurrentPosition(
-        state: PagingState<Int, WordDB>
-    ): RemoteKey? {
-        return state.anchorPosition?.let { position ->
-            state.closestItemToPosition(position)?.id?.let { id ->
-                remoteKeyDao.getRemoteKeys(id = id)
-            }
-        }
-    }
-
-    private suspend fun getRemoteKeyForFirstItem(
-        state: PagingState<Int, WordDB>
-    ): RemoteKey? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { word ->
-                remoteKeyDao.getRemoteKeys(id = word.id)
-            }
-    }
-
-    private suspend fun getRemoteKeyForLastItem(
-        state: PagingState<Int, WordDB>
-    ): RemoteKey? {
-        return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { word ->
-                remoteKeyDao.getRemoteKeys(id = word.id)
-            }
     }
 }

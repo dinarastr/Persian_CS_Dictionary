@@ -8,8 +8,8 @@ import androidx.room.TypeConverters
 @Entity(tableName = "words")
 @TypeConverters(TranslationsConverter::class)
 data class WordDB(
-    @PrimaryKey
-    val id: String = "",
+    @PrimaryKey()
+    val id: String,
     val english: String,
     val meanings: List<String>
 )
@@ -18,8 +18,9 @@ data class WordDB(
 data class RemoteKey(
     @PrimaryKey
     val id: String = "",
-    val prevPage: String?,
-    val nextPage: String?
+    val currentChunkLastId: String? = "",
+    val prevPage: Int?,
+    val nextPage: Int?
 )
 
 

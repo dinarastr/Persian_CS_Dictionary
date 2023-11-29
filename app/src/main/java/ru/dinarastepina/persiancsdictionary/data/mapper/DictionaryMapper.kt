@@ -12,10 +12,15 @@ class DataMapper @Inject constructor() {
     }
 
     fun toDB(word: WordApiModel): WordDB {
-        return WordDB(word.id, word.english, word.meanings)
+        return WordDB(
+            id = word.id,
+            english = word.english,
+            meanings = word.meanings
+        )
     }
 
     fun toDomain(word: WordDB): Word {
-        return Word(word.id, word.english, word.meanings)
+        return Word(
+            word.id, word.english, word.meanings)
     }
 }

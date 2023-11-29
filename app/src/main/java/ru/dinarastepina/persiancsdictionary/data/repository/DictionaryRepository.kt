@@ -27,18 +27,21 @@ class DictionaryRepository @Inject constructor(
     private val api: DictionaryApi
 ): IDictionaryRepository {
 
-    override fun getAllArticles(page: String, pageSize: Int): Flow<PagingData<Word>> {
-        @OptIn(ExperimentalPagingApi::class)
-        val pager = Pager(
-            config = PagingConfig(pageSize = 50) ,
-            remoteMediator = DictionaryRemoteMediator(
-                database, api, mapper
-            ))
-        {
+    override fun getAllArticles(): Flow<PagingData<Word>> {
+       val source = {
             database.dictionaryDao().fetchAllWords()
         }
-
-        return pager.flow.map { data ->
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                prefetchDistance = 3,
+                enablePlaceholders = false,
+                pageSize = 20) ,
+            remoteMediator = DictionaryRemoteMediator(
+                database, api, mapper
+            ),
+            pagingSourceFactory = source
+        ).flow.map { data ->
             data.map { mapper.toDomain(it) }
         }.catch {
             Log.e("error", "error")

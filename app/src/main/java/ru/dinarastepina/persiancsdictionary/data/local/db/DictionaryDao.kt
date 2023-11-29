@@ -1,6 +1,5 @@
 package ru.dinarastepina.persiancsdictionary.data.local.db
 
-import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
@@ -21,4 +20,7 @@ interface DictionaryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(words: List<WordDB>)
+
+    @Query("delete from words")
+    suspend fun deleteAllCache()
 }

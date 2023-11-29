@@ -1,5 +1,6 @@
 package ru.dinarastepina.persiancsdictionary.presentation.fragments.list
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -17,11 +18,15 @@ class MyDictionaryRecyclerViewAdapter(
 
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<UiWord>() {
-            override fun areItemsTheSame(oldItem: UiWord, newItem: UiWord): Boolean =
-                oldItem == newItem
+            override fun areItemsTheSame(oldItem: UiWord, newItem: UiWord): Boolean {
+                Log.i("rv items", (oldItem.id == newItem.id).toString())
+                return oldItem.id == newItem.id
+            }
 
-            override fun areContentsTheSame(oldItem: UiWord, newItem: UiWord): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: UiWord, newItem: UiWord): Boolean {
+                Log.i("rv contents", (oldItem == newItem).toString())
+                return oldItem.component3() == newItem.translations
+            }
         }
     }
 
@@ -37,11 +42,11 @@ class MyDictionaryRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)!!
-        holder.english.text = item.word
-        holder.persian.text = item.translations.joinToString(",\n")
+        val item = getItem(position)
+        holder.english.text = item?.word
+        holder.persian.text = item?.translations?.joinToString(",\n")
         holder.english.setOnClickListener {
-            listener(item.id)
+            item?.id?.let { it1 -> listener(it1) }
         }
     }
 
