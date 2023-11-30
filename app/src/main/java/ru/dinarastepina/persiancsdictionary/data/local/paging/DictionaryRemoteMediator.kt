@@ -35,7 +35,6 @@ class DictionaryRemoteMediator @Inject constructor(
                 LoadType.REFRESH -> {
                     ""
                 }
-
                 LoadType.PREPEND -> {
                     return MediatorResult.Success(
                         endOfPaginationReached = true

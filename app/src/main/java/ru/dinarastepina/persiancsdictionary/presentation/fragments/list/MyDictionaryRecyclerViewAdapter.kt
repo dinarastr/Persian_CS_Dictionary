@@ -19,13 +19,11 @@ class MyDictionaryRecyclerViewAdapter(
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<UiWord>() {
             override fun areItemsTheSame(oldItem: UiWord, newItem: UiWord): Boolean {
-                Log.i("rv items", (oldItem.id == newItem.id).toString())
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: UiWord, newItem: UiWord): Boolean {
-                Log.i("rv contents", (oldItem == newItem).toString())
-                return oldItem.component3() == newItem.translations
+                return oldItem == newItem
             }
         }
     }

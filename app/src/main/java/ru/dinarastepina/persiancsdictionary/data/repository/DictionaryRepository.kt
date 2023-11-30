@@ -34,7 +34,8 @@ class DictionaryRepository @Inject constructor(
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
-                prefetchDistance = 3,
+                initialLoadSize = 40,
+                prefetchDistance = 60,
                 enablePlaceholders = false,
                 pageSize = 20) ,
             remoteMediator = DictionaryRemoteMediator(
