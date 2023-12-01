@@ -32,7 +32,7 @@ class DictionaryFragment : Fragment() {
     private val vb: FragmentDictionaryBinding
         get() = _vb!!
 
-    private val adapter: MyDictionaryRecyclerViewAdapter by lazy {
+    private val dictionaryAdapter: MyDictionaryRecyclerViewAdapter by lazy {
         MyDictionaryRecyclerViewAdapter(
             listener = { id ->
                 val action =
@@ -40,6 +40,12 @@ class DictionaryFragment : Fragment() {
                 findNavController().navigate(action)
             }
         )
+    }
+
+    private val loadStateAdapter: PagingLoadStateAdapter by lazy {
+        PagingLoadStateAdapter {
+           Log.i("hghghjgjhhjhj", "gghghghj")
+        }
     }
 
     override fun onCreateView(
@@ -70,8 +76,10 @@ class DictionaryFragment : Fragment() {
     }
 
     private suspend fun setUpAdapter(words: PagingData<UiWord>) {
-        vb.dictionaryRv.adapter = adapter
-        adapter.submitData(
+        with(vb.dictionaryRv) {
+            adapter = dictionaryAdapter.withLoadStateFooter(loadStateAdapter)
+        }
+        dictionaryAdapter.submitData(
             words
         )
     }
