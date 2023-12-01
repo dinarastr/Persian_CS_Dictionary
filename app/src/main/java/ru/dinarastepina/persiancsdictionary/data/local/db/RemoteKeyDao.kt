@@ -9,7 +9,7 @@ import ru.dinarastepina.persiancsdictionary.data.local.model.RemoteKey
 @Dao
 interface RemoteKeyDao {
     @Query("SELECT * FROM remote_keys")
-    suspend fun getRemoteKey(): RemoteKey
+    suspend fun getRemoteKey(): RemoteKey?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRemoteKey(remoteKeys: RemoteKey)

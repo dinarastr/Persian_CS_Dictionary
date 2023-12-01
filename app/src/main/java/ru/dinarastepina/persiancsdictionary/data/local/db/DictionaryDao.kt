@@ -9,7 +9,7 @@ import ru.dinarastepina.persiancsdictionary.data.local.model.WordDB
 
 @Dao
 interface DictionaryDao {
-    @Query("SELECT * FROM words order by id asc")
+    @Query("SELECT * FROM words order by english asc")
     fun fetchAllWords(): PagingSource<Int, WordDB>
 
     @Query("SELECT * FROM words WHERE english like :query")
@@ -18,7 +18,7 @@ interface DictionaryDao {
     @Query("SELECT * FROM words WHERE id LIKE :id LIMIT 1")
     fun fetchAllWords(id: String): WordDB
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(words: List<WordDB>)
 
     @Query("delete from words")

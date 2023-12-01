@@ -43,7 +43,7 @@ class DictionaryRepository @Inject constructor(
         ).flow.map { data ->
             data.map { mapper.toDomain(it) }
         }.catch {
-            Log.e("error", "error")
+            Log.e("error", it.message.toString())
         }
     }
 
