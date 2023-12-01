@@ -28,7 +28,7 @@ barista = "4.2.0"
 hilt = "2.48.1"
 kspVersion = "1.9.20-1.0.14"
 navigationComponent = "2.7.5"
-paging = "3.2.1"
+paging = "3.3.0-alpha02"
 
 
 [libraries]
