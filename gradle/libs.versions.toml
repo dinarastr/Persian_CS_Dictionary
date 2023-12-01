@@ -18,7 +18,7 @@ mockitoKotlin = "5.1.0"
 navigationFragmentKtx = "2.7.5"
 okhttp3IdlingResource = "1.0.0"
 retrofit = "2.9.0"
-roomRuntime = "2.6.1"
+roomRuntime = "2.6.0"
 runner = "1.5.2"
 targetSdk = "34"
 versionCode = "1"
@@ -27,6 +27,7 @@ barista = "4.2.0"
 hilt = "2.48.1"
 kspVersion = "1.9.20-1.0.14"
 navigationComponent = "2.7.5"
+paging = "3.2.1"
 
 
 [libraries]
@@ -56,7 +57,7 @@ hilt-compiler = {module = "com.google.dagger:hilt-compiler", version.ref = "hilt
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version = "3.2.1" }
+androidx-paging-runtime-ktx = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging" }
 
 
 [plugins]

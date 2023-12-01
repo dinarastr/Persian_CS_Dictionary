@@ -21,7 +21,7 @@ class DictionaryFragmentVM @Inject constructor(
 
     val loader = MutableLiveData<Boolean>()
 
-    val words = repository.getAllArticles().flowOn(Dispatchers.IO)
+    val words = repository.getAllArticles()
         .map {
                 data ->
            data.map { mapper.toUI(it) }

@@ -19,7 +19,7 @@ class MyDictionaryRecyclerViewAdapter(
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<UiWord>() {
             override fun areItemsTheSame(oldItem: UiWord, newItem: UiWord): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.word == newItem.word
             }
 
             override fun areContentsTheSame(oldItem: UiWord, newItem: UiWord): Boolean {

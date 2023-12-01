@@ -9,7 +9,7 @@ import ru.dinarastepina.persiancsdictionary.data.local.model.WordDB
 
 @Dao
 interface DictionaryDao {
-    @Query("SELECT * FROM words order by id")
+    @Query("SELECT * FROM words order by id asc")
     fun fetchAllWords(): PagingSource<Int, WordDB>
 
     @Query("SELECT * FROM words WHERE english like :query")

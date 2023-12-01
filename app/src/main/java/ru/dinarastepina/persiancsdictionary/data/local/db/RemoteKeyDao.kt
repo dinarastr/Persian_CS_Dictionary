@@ -8,12 +8,12 @@ import ru.dinarastepina.persiancsdictionary.data.local.model.RemoteKey
 
 @Dao
 interface RemoteKeyDao {
-    @Query("SELECT * FROM remote_keys WHERE id =:id")
-    suspend fun getRemoteKeys(id: String): RemoteKey
+    @Query("SELECT * FROM remote_keys")
+    suspend fun getRemoteKey(): RemoteKey
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addAllRemoteKeys(remoteKeys: List<RemoteKey>)
+    suspend fun addRemoteKey(remoteKeys: RemoteKey)
 
     @Query("DELETE FROM remote_keys")
-    suspend fun deleteAllRemoteKeys()
+    suspend fun deleteRemoteKey()
 }

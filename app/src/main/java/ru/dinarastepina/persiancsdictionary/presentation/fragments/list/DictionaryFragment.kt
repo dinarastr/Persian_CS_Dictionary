@@ -62,17 +62,15 @@ class DictionaryFragment : Fragment() {
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewmodel.words.distinctUntilChanged().collectLatest { result ->
+            viewmodel.words.collectLatest { result ->
                 setUpAdapter( result)
             }
         }
     }
 
-    private fun setUpAdapter(words: PagingData<UiWord>) {
+    private suspend fun setUpAdapter(words: PagingData<UiWord>) {
         vb.dictionaryRv.adapter = adapter
-        adapter.onPagesUpdatedFlow
         adapter.submitData(
-            lifecycle = viewLifecycleOwner.lifecycle,
             words
         )
     }

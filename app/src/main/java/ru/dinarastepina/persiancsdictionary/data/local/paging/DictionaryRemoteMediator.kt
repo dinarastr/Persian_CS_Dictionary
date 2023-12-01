@@ -25,42 +25,58 @@ class DictionaryRemoteMediator @Inject constructor(
 ) : RemoteMediator<Int, WordDB>() {
 
     private val dictionaryDao = database.dictionaryDao()
+    private val remoteKeyDao = database.remoteKeyDao()
 
+    override suspend fun initialize(): InitializeAction {
+        // Require that remote REFRESH is launched on initial load and succeeds before launching
+        // remote PREPEND / APPEND.
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
+    }
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, WordDB>
     ): MediatorResult {
+
+
         return try {
-            val currentPage: String = when (loadType) {
-                LoadType.REFRESH -> {
-                    ""
-                }
-                LoadType.PREPEND -> {
-                    return MediatorResult.Success(
+            val currentPage = when (loadType) {
+                LoadType.REFRESH -> null
+
+                LoadType.PREPEND -> return MediatorResult.Success(
                         endOfPaginationReached = true
                     )
-                }
-
                 LoadType.APPEND -> {
-                    val last = state.lastItemOrNull()
-                        ?: return MediatorResult.Success(
+                    val remoteKey = database.withTransaction {
+                        remoteKeyDao.getRemoteKey()
+                    }
+                    if (remoteKey.currentChunkLastId == null) {
+                        return MediatorResult.Success(
                             endOfPaginationReached = true
                         )
-                    last.id
+                    }
+                    remoteKey.currentChunkLastId
                 }
             }
 
-            val response = api.fetchWords(
-                lastId = currentPage,
-                limit = 20
-            )
+            val data = api.fetchWords(
+                lastId = currentPage.orEmpty(),
+                limit = when (loadType) {
+                    LoadType.REFRESH -> 60
+                    else -> 20
+                }
+            ).words
 
-            val endOfPaginationReached = response.words.size < 20
+            val endOfPaginationReached = data.isEmpty()
+
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     dictionaryDao.deleteAllCache()
+                    remoteKeyDao.deleteRemoteKey()
                 }
-                dictionaryDao.insertAll(words = response.words.map { mapper.toDB(it) })
+                remoteKeyDao.addRemoteKey(RemoteKey(
+                    currentChunkLastId = if (endOfPaginationReached) null else data.last().id
+                ))
+                dictionaryDao.insertAll(words = data.map { mapper.toDB(it) })
             }
             MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (e: IOException) {
