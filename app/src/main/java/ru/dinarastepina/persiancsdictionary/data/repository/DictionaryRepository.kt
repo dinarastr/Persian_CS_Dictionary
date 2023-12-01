@@ -13,9 +13,10 @@ import kotlinx.coroutines.flow.map
 import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDao
 import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDatabase
 import ru.dinarastepina.persiancsdictionary.data.local.model.WordDB
-import ru.dinarastepina.persiancsdictionary.data.local.paging.DictionaryRemoteMediator
+import ru.dinarastepina.persiancsdictionary.data.remote.paging.DictionaryRemoteMediator
 import ru.dinarastepina.persiancsdictionary.data.mapper.DataMapper
 import ru.dinarastepina.persiancsdictionary.data.remote.api.DictionaryApi
+import ru.dinarastepina.persiancsdictionary.data.remote.paging.SearchPagingSource
 import ru.dinarastepina.persiancsdictionary.domain.repository.IDictionaryRepository
 import ru.dinarastepina.persiancsdictionary.domain.model.Word
 import java.lang.RuntimeException
@@ -35,7 +36,8 @@ class DictionaryRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 enablePlaceholders = false,
-                pageSize = 20) ,
+                pageSize = 20
+            ) ,
             remoteMediator = DictionaryRemoteMediator(
                 database, api, mapper
             ),
@@ -43,17 +45,25 @@ class DictionaryRepository @Inject constructor(
         ).flow.map { data ->
             data.map { mapper.toDomain(it) }
         }.catch {
-            Log.e("error", it.message.toString())
+            Log.e("error get all", it.message.toString())
         }
     }
 
-    override fun searchArticles(query: String, page: String, pageSize: Int): Flow<Result<List<Word>>> {
-        return flow {
-            emit(Result.success(
-                api.searchWords(query, page, pageSize).words.map { mapper.toDomain(it) }))
-        }.catch {
-            Log.e("error", "error")
-            emit(Result.failure(RuntimeException("No!")))
+    override fun searchArticles(query: String): Flow<PagingData<Word>> {
+        return Pager(
+            config = PagingConfig(
+                enablePlaceholders = false,
+                pageSize = 20
+            ),
+            pagingSourceFactory = {
+                SearchPagingSource(
+                    api = api,
+                    query = query,
+                    mapper = mapper
+                )
+            }
+        ).flow.catch {
+            Log.e("error search", it.message.toString())
         }
     }
 
@@ -62,7 +72,7 @@ class DictionaryRepository @Inject constructor(
             emit(Result.success(
                 mapper.toDomain(api.fetchWordDetails(id))))
         }.catch {
-            Log.e("error", "error")
+            Log.e("error details", "error")
             emit(Result.failure(RuntimeException("No!")))
         }
     }

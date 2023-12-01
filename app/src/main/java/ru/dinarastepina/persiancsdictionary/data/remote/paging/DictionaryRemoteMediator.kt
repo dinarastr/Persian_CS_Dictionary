@@ -1,4 +1,4 @@
-package ru.dinarastepina.persiancsdictionary.data.local.paging
+package ru.dinarastepina.persiancsdictionary.data.remote.paging
 
 import android.util.Log
 import androidx.paging.ExperimentalPagingApi

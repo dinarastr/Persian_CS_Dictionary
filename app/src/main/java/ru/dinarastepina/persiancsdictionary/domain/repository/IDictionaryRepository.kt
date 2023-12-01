@@ -8,7 +8,7 @@ import ru.dinarastepina.persiancsdictionary.domain.model.Word
 interface IDictionaryRepository {
     fun getAllArticles(): Flow<PagingData<Word>>
 
-    fun searchArticles(query: String, page: String, pageSize: Int): Flow<Result<List<Word>>>
+    fun searchArticles(query: String): Flow<PagingData<Word>>
 
     fun getArticleDetails(id: String): Flow<Result<Word>>
 }

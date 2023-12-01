@@ -2,9 +2,12 @@ package ru.dinarastepina.persiancsdictionary.presentation.fragments.list
 
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.text.set
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -67,9 +70,11 @@ class DictionaryFragment : Fragment() {
 //                }
         //}
 
+        updateSearch()
+
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewmodel.words.collectLatest { result ->
+            viewmodel.search.collectLatest { result ->
                 setUpAdapter( result)
             }
         }
@@ -83,6 +88,36 @@ class DictionaryFragment : Fragment() {
             words
         )
     }
+
+    private fun initSearch() {
+        vb.searchView.text?.trim()?.let {
+            if (it.isNotEmpty()) {
+                viewmodel.update(it)
+            }
+        }
+    }
+
+    private fun updateSearch() {
+        vb.searchView.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                initSearch()
+                true
+            } else {
+                false
+            }
+        }
+
+        vb.searchView.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                initSearch()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
