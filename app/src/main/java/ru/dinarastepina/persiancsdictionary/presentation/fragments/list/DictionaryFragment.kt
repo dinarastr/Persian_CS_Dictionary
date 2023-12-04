@@ -74,7 +74,7 @@ class DictionaryFragment : Fragment() {
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewmodel.search.collectLatest { result ->
+            viewmodel.words.collect { result ->
                 setUpAdapter( result)
             }
         }

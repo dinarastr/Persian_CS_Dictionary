@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.map
 import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDao
 import ru.dinarastepina.persiancsdictionary.data.local.db.DictionaryDatabase
 import ru.dinarastepina.persiancsdictionary.data.local.model.WordDB
+import ru.dinarastepina.persiancsdictionary.data.local.paging.CachedDataSource
 import ru.dinarastepina.persiancsdictionary.data.remote.paging.DictionaryRemoteMediator
 import ru.dinarastepina.persiancsdictionary.data.mapper.DataMapper
 import ru.dinarastepina.persiancsdictionary.data.remote.api.DictionaryApi
@@ -29,19 +30,22 @@ class DictionaryRepository @Inject constructor(
 ): IDictionaryRepository {
 
     override fun getAllArticles(): Flow<PagingData<Word>> {
-       val source = {
-            database.dictionaryDao().fetchAllWords()
-        }
         @OptIn(ExperimentalPagingApi::class)
         return Pager(
             config = PagingConfig(
-                enablePlaceholders = false,
+                initialLoadSize = 60,
+                prefetchDistance = 5,
+                enablePlaceholders = true,
                 pageSize = 20
             ) ,
             remoteMediator = DictionaryRemoteMediator(
                 database, api, mapper
             ),
-            pagingSourceFactory = source
+            pagingSourceFactory = {
+                CachedDataSource(
+                    database = database
+                )
+            }
         ).flow.map { data ->
             data.map { mapper.toDomain(it) }
         }.catch {

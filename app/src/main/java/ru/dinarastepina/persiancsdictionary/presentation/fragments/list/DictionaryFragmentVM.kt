@@ -53,5 +53,5 @@ class DictionaryFragmentVM @Inject constructor(
                 data ->
            data.map { mapper.toUI(it) }
         }
-        .cachedIn(viewModelScope)
+
 }

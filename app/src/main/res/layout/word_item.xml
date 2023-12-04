@@ -3,13 +3,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/item_root"
-    android:orientation="horizontal"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
     >
 
     <TextView
+
         android:id="@+id/english_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
