@@ -1,4 +1,4 @@
-# Persian_CS_Dictionary-Android-
+# Persian_CS_Dictionary-Android- (IN PROGRESS)
 a sample project to test architectural patterns
 (powered by my own Ktor server: https://github.com/dinarastr/Persian-Computer-Science-Dictionary-Server-)
 
